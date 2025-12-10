@@ -1,0 +1,134 @@
+.hero {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.banner-img {
+    width: 100%;
+    display: block;
+    mask-image: linear-gradient(to right, transparent, black 75%);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 75%);
+    object-fit: cover;
+}
+
+.hero-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding-left: 6%;
+    padding-bottom: 40px;
+    color: #fff;
+    z-index: 2;
+}
+
+.caption-img {
+    width: 90%;
+    max-width: 420px;
+    margin-bottom: 40px;
+}
+
+.hero-caption p {
+    max-width: 700px;
+    font-size: 17px;
+    line-height: 1.4;
+    margin-bottom: 20px;
+}
+
+.hero-btn {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 50px;
+}
+
+.hero-btn .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 20px;
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background: white;
+    color: #000;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.hero-btn .btn img {
+    width: 25px;
+}
+
+.hero-btn .btn.dark-btn {
+    background: rgba(109, 109, 110, 0.7);
+    color: #fff;
+}
+
+.hero-btn .btn:hover {
+    background: #ffffffbf;
+}
+
+.hero-btn .btn.dark-btn:hover {
+    background: rgba(109, 109, 110, 0.4);
+}
+
+/* Responsive for tablets and smaller screens */
+@media (max-width: 1024px) {
+    .hero-caption {
+        padding-left: 4%;
+        padding-bottom: 30px;
+    }
+
+    .caption-img {
+        width: 50%;
+        margin-bottom: 20px;
+    }
+
+    .hero-caption p {
+        font-size: 14px;
+        max-width: 90%;
+        margin-bottom: 15px;
+    }
+
+    .hero-btn {
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .hero-btn .btn img {
+        width: 20px;
+    }
+
+    .hero-caption .title-cards {
+        display: none;
+    }
+
+    .more-cards {
+        padding-left: 4%;
+    }
+}
+
+/* Responsive for mobile devices */
+@media (max-width: 768px) {
+    .caption-img {
+        width: 70%;
+    }
+
+    .hero-caption p {
+        font-size: 12px;
+        margin-bottom: 10px;
+    }
+
+    .hero-btn {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .hero-btn .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
