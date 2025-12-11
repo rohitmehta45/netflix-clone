@@ -16,22 +16,25 @@ const Player = () => {
           {
             headers: {
               accept: 'application/json',
-              Authorization: 'Bearer YOUR_API_KEY_HERE'
+              Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`
             }
           }
         );
+
         const data = await res.json();
         setVideo(data.results?.[0] || null);
       } catch (err) {
         console.error(err);
       }
     };
+
     fetchVideo();
   }, [id]);
 
   return (
     <div className="player">
       <img src={back_arrow_icon} alt="" onClick={() => navigate(-1)} />
+
       {video ? (
         <iframe
           width="90%"
@@ -44,6 +47,7 @@ const Player = () => {
       ) : (
         <p>No trailer available</p>
       )}
+
       {video && (
         <div className="player-info">
           <p>{video.name}</p>
