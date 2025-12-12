@@ -7,6 +7,7 @@ const Player = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [video, setVideo] = useState(null);
+  const [valid, setValid] = useState(false);
 
   useEffect(() => {
     const fetchVideo = async () => {
@@ -22,14 +23,26 @@ const Player = () => {
         );
 
         const data = await res.json();
+        const results = data.results || [];
 
-        // Pick ONLY official YouTube trailer — prevents unsafe redirects
-        const youtubeTrailer =
-          data.results?.find(
+        // Prefer trailer → then any YouTube video
+        let bestVideo =
+          results.find(
             (v) => v.site === 'YouTube' && v.type === 'Trailer'
-          ) || null;
+          ) || results.find((v) => v.site === 'YouTube');
 
-        setVideo(youtubeTrailer);
+        setVideo(bestVideo || null);
+
+        // Validate YouTube key
+        if (bestVideo) {
+          const testUrl = `https://img.youtube.com/vi/${bestVideo.key}/0.jpg`;
+
+          // Try loading the thumbnail → if fails, the video does not exist
+          const img = new Image();
+          img.onload = () => setValid(true);
+          img.onerror = () => setValid(false);
+          img.src = testUrl;
+        }
       } catch (err) {
         console.error(err);
       }
@@ -42,7 +55,7 @@ const Player = () => {
     <div className="player">
       <img src={back_arrow_icon} alt="" onClick={() => navigate(-1)} />
 
-      {video ? (
+      {video && valid ? (
         <iframe
           width="90%"
           height="90%"
@@ -52,15 +65,7 @@ const Player = () => {
           allowFullScreen
         />
       ) : (
-        <p>No official trailer available</p>
-      )}
-
-      {video && (
-        <div className="player-info">
-          <p>{video.name}</p>
-          <p>{video.type}</p>
-          <p>{video.published_at}</p>
-        </div>
+        <p>No safe trailer available</p>
       )}
     </div>
   );
