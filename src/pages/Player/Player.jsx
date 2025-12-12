@@ -16,13 +16,20 @@ const Player = () => {
           {
             headers: {
               accept: 'application/json',
-              Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`
-            }
+              Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`,
+            },
           }
         );
 
         const data = await res.json();
-        setVideo(data.results?.[0] || null);
+
+        // Pick ONLY official YouTube trailer — prevents unsafe redirects
+        const youtubeTrailer =
+          data.results?.find(
+            (v) => v.site === 'YouTube' && v.type === 'Trailer'
+          ) || null;
+
+        setVideo(youtubeTrailer);
       } catch (err) {
         console.error(err);
       }
@@ -45,7 +52,7 @@ const Player = () => {
           allowFullScreen
         />
       ) : (
-        <p>No trailer available</p>
+        <p>No official trailer available</p>
       )}
 
       {video && (
